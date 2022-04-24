@@ -12,16 +12,14 @@ namespace rings_and_x_s
     {
         AI ai;
         public PictureBox PBPalyaElemek;
-        string name;
 
-        public Mezo(int x, int y, int width, int height, int kep, AI ai)
+        public Mezo(int x, int y, int width, int height, AI ai)
         {
             this.ai = ai;
             X = x;
             Y = y;
             OWidth = width;
             OHeight = height;
-            Kep = kep;
         }
 
         
@@ -42,6 +40,7 @@ namespace rings_and_x_s
             var redX = new Bitmap(rings_and_x_s.Properties.Resources.red_x);
             if (kep == 1)
             {
+
                 PBPalyaElemek.Image = greenCircle;
             }
             else if (kep == 2)
@@ -72,10 +71,10 @@ namespace rings_and_x_s
         {
             if (e.Button == MouseButtons.Left)
             {
-                string kattintottMezoNeve = this.ai.joHely(PBPalyaElemek.Name,PBPalyaElemek.Image);
-                if (kattintottMezoNeve != null)
+               string helyNeve = ai.joHely(PBPalyaElemek.Name, PBPalyaElemek.Image);
+                if (helyNeve != null)
                 {
-                     
+                    ai.ujraRajzol(helyNeve, 1);
                 }
                 /*var greenCircle = new Bitmap(rings_and_x_s.Properties.Resources.green_circle);
                 PBPalyaElemek.Image = greenCircle;*/

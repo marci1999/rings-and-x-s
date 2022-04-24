@@ -15,9 +15,11 @@ namespace rings_and_x_s
         Mezo m;
         AI ai;
         List<PictureBox> mezok;
+        Panel palya;
         public Fkepernyo()
         {
             InitializeComponent();
+            palya = PPalya;
         }
         private void BKezdes_Click(object sender, EventArgs e)
         {
@@ -35,13 +37,13 @@ namespace rings_and_x_s
             int height = Convert.ToInt32(PPalya.Height/meret);
             //MessageBox.Show(PPalya.Width + " " + PPalya.Height);
             string name;
-            ai = new AI(meret);
+            ai = new AI(meret, m, mezok, palya); ;
             for (int i = 0; i <meret; i++)
             {
                 yKezdes = 1;
                 for (int j = 0; j < meret; j++)
                 {
-                    ai.Mezok.Add(0);
+                    ai.MezokErteke.Add(0);
                     name = "" + i + "," + j + "";
                     ai.MezokNev.Add(""+name);
                     /*if (j == 0 && i == 0 || j == 2 && i == 2)
@@ -65,7 +67,7 @@ namespace rings_and_x_s
                         mezok.Add(m.Keszit(0));
                         yKezdes += height;
                     }*/
-                    m = new Mezo(xKezdes, yKezdes, width, height, 0, ai);
+                    m = new Mezo(xKezdes, yKezdes, width, height, ai);
                     PPalya.Controls.Add(m.Keszit(0,name));
                     mezok.Add(m.Keszit(0,name));
                     yKezdes += height;
@@ -76,8 +78,6 @@ namespace rings_and_x_s
             int hely = ai.lepes();*/
         }
 
-
-        
 
         /*void PBPalyaElemek_MouseClick(object sender, MouseEventArgs e)
         {

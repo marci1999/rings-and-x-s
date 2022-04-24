@@ -7,17 +7,24 @@ namespace rings_and_x_s
 {
     class AI
     {
-        List<int> mezok;
+        Mezo m;
+        List<int> mezokErteke;
         List<string> mezokNev;
+        List<PictureBox> mezok;
         int palyaMerete;
-        public AI(int meret )
+        Panel palya;
+        public AI(int meret, Mezo m, List<PictureBox> mezoAdatok, Panel PPalya)
         {
             this.palyaMerete = meret;
-            mezok = new List<int>();
+            mezokErteke = new List<int>();
             MezokNev = new List<string>();
+            this.Mezok = new List<PictureBox>();
+            this.Mezok = mezoAdatok;
+            palya = PPalya;
         }
-        public List<int> Mezok { get => mezok; set => mezok = value; }
+        public List<int> MezokErteke { get => mezokErteke; set => mezokErteke = value; }
         public List<string> MezokNev { get => mezokNev; set => mezokNev = value; }
+        public List<PictureBox> Mezok { get => mezok; set => mezok = value; }
 
         public string joHely(string nev,Image kep)
         {
@@ -32,18 +39,42 @@ namespace rings_and_x_s
             {
                 var greenCircle = new Bitmap(rings_and_x_s.Properties.Resources.green_circle);
                 kep = greenCircle;
-                int ySeged = y *palyaMerete;
+                int xSeged = x *palyaMerete;
 
-                int hely = (x) + ySeged;
+                int hely = y + xSeged;
                 //MessageBox.Show("" + mezokNev[hely]);
                 
-                if (mezok[hely] == 0)
+                if (mezokErteke[hely] == 0)
                 {
-                    mezok[hely] = 1;
+                    
+                    mezokErteke[hely] = 1;
                     return mezokNev[hely];
                 }
-                return null;
             }
+            return null;
+        }
+
+        public void ujraRajzol(string nev, int kep)
+        {
+            palya.Controls.Clear();
+            foreach (var item in mezok)
+            {
+                if (item.Name == nev)
+	            {
+                    var greenCircle = new Bitmap(rings_and_x_s.Properties.Resources.green_circle);
+                    var redX = new Bitmap(rings_and_x_s.Properties.Resources.red_x);
+                    if (kep == 1)
+                    {
+                        item.Image = greenCircle;
+                    }
+                    else if (kep == 2)
+                    {
+                        item.Image = redX;
+                    }
+	            }
+                palya.Controls.Add(item);
+            }
+
         }
     }
 }
