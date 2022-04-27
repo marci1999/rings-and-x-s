@@ -16,10 +16,12 @@ namespace rings_and_x_s
         AI ai;
         List<PictureBox> mezok;
         Panel palya;
+        Button kezdesGob;
         public Fkepernyo()
         {
             InitializeComponent();
             palya = PPalya;
+            kezdesGob = BKezdes;
         }
         private void BKezdes_Click(object sender, EventArgs e)
         {
@@ -37,7 +39,7 @@ namespace rings_and_x_s
             int height = Convert.ToInt32(PPalya.Height/meret);
             //MessageBox.Show(PPalya.Width + " " + PPalya.Height);
             string name;
-            ai = new AI(meret, m, mezok, palya); ;
+            ai = new AI(meret, m, mezok, palya,kezdesGob); ;
             for (int i = 0; i <meret; i++)
             {
                 yKezdes = 1;

@@ -76,6 +76,7 @@ namespace rings_and_x_s
                 {
                     ai.ujraRajzol(helyNeve, 1);
                 }
+                ai.aIValaszol();
                 /*var greenCircle = new Bitmap(rings_and_x_s.Properties.Resources.green_circle);
                 PBPalyaElemek.Image = greenCircle;*/
                 //PBPalyaElemek.ImageLocation = (0,0);

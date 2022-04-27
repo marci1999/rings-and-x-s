@@ -11,16 +11,21 @@ namespace rings_and_x_s
         List<int> mezokErteke;
         List<string> mezokNev;
         List<PictureBox> mezok;
+        int[,] palyaAllapota;
         int palyaMerete;
         Panel palya;
-        public AI(int meret, Mezo m, List<PictureBox> mezoAdatok, Panel PPalya)
+        Button kezdesGob;
+        
+        public AI(int meret, Mezo m, List<PictureBox> mezoAdatok, Panel PPalya, Button BKezdes)
         {
             this.palyaMerete = meret;
             mezokErteke = new List<int>();
             MezokNev = new List<string>();
             this.Mezok = new List<PictureBox>();
             this.Mezok = mezoAdatok;
+            palyaAllapota = new int[palyaMerete, palyaMerete];
             palya = PPalya;
+            kezdesGob = BKezdes;
         }
         public List<int> MezokErteke { get => mezokErteke; set => mezokErteke = value; }
         public List<string> MezokNev { get => mezokNev; set => mezokNev = value; }
@@ -75,6 +80,190 @@ namespace rings_and_x_s
                 palya.Controls.Add(item);
             }
 
+        }
+        
+        public void aIValaszol()
+        {
+            for (int i = 0; i < palyaMerete; i++)
+            {
+                for (int j = 0; j < palyaMerete; j++)
+                {
+                    int iSeged = i * palyaMerete;
+
+                    int hely = j + iSeged;
+
+                    palyaAllapota[i, j] = mezokErteke[hely];
+                }
+            }
+            int kitEllenorzok = 1;
+            if (nyertValaki(kitEllenorzok))
+            {
+                jatekVege(kitEllenorzok);
+            }
+
+        }
+
+        private bool nyertValaki(int kitEllenorzok)
+        {
+            int nyereshezSzuksegesJelekSzama = 0;
+
+            if (palyaMerete<6)
+            {
+                nyereshezSzuksegesJelekSzama = 3;
+            }
+            else if (palyaMerete<8)
+            {
+                nyereshezSzuksegesJelekSzama = 4;
+            }
+            else
+            {
+                nyereshezSzuksegesJelekSzama = 5;
+            }
+
+            for (int i = 0; i < palyaMerete; i++)
+            {
+                for (int j = 0; j < palyaMerete; j++)
+                {
+                    if (palyaAllapota[i,j] == kitEllenorzok)
+                    {
+                        //|| i - (nyereshezSzuksegesJelekSzama-1) >= 1
+                        if (i+nyereshezSzuksegesJelekSzama <= palyaMerete && miKellANyereshez(nyereshezSzuksegesJelekSzama,"+i",i,j,kitEllenorzok))
+                        {
+                            return true;
+                        }
+                        if (j + nyereshezSzuksegesJelekSzama <= palyaMerete && miKellANyereshez(nyereshezSzuksegesJelekSzama,"+j",i,j,kitEllenorzok))
+                        {
+                            return true;
+                        }
+                        if (j + (nyereshezSzuksegesJelekSzama) <= palyaMerete&& i + (nyereshezSzuksegesJelekSzama) <= palyaMerete && miKellANyereshez(nyereshezSzuksegesJelekSzama,"+i+j",i,j,kitEllenorzok))
+                        {
+                           return true;
+                        }
+                        if (i - (nyereshezSzuksegesJelekSzama-1) >= 0 && j + (nyereshezSzuksegesJelekSzama) <= palyaMerete && miKellANyereshez(nyereshezSzuksegesJelekSzama,"-i+j",i,j,kitEllenorzok))
+                        {
+                           return true;
+                        }
+
+                    }
+                }
+            }
+            return false;
+        }
+
+        private bool miKellANyereshez(int nyereshezSzuksegesJelekSzama, string irany, int i, int j, int kitEllenorzok) 
+        { 
+            if(nyereshezSzuksegesJelekSzama == 3)
+            {
+                if (irany == "+i")
+	            {
+                    if (palyaAllapota[i+1,j] == kitEllenorzok && palyaAllapota[i + 2, j] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+                if (irany == "+j")
+	            {
+                    if (palyaAllapota[i, j+1] == kitEllenorzok && palyaAllapota[i, j+2] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+                if (irany == "+i+j")
+	            {
+                    if (palyaAllapota[i+1, j+1] == kitEllenorzok && palyaAllapota[i+2, j+2] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+                if (irany == "-i+j")
+	            {
+                    if (palyaAllapota[i-1, j+1] == kitEllenorzok && palyaAllapota[i-2, j+2] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+            }
+            else if (nyereshezSzuksegesJelekSzama == 4)
+	        {
+                if (irany == "+i")
+	            {
+                    if (palyaAllapota[i+1,j] == kitEllenorzok && palyaAllapota[i + 2, j] == kitEllenorzok&& palyaAllapota[i + 3, j] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+                if (irany == "+j")
+	            {
+                    if (palyaAllapota[i, j+1] == kitEllenorzok && palyaAllapota[i, j+2] == kitEllenorzok&& palyaAllapota[i, j+3] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+                if (irany == "+i+j")
+	            {
+                    if (palyaAllapota[i+1, j+1] == kitEllenorzok && palyaAllapota[i+2, j+2] == kitEllenorzok && palyaAllapota[i+3, j+3] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+                if (irany == "-i+j")
+	            {
+                    if (palyaAllapota[i-1, j+1] == kitEllenorzok && palyaAllapota[i-2, j+2] == kitEllenorzok && palyaAllapota[i-3, j+3] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+	        }
+            else if (nyereshezSzuksegesJelekSzama == 5)
+	        {
+                if (irany == "+i")
+	            {
+                    if (palyaAllapota[i+1,j] == kitEllenorzok && palyaAllapota[i + 2, j] == kitEllenorzok&& palyaAllapota[i + 3, j] == kitEllenorzok&& palyaAllapota[i + 4, j] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+                if (irany == "+j")
+	            {
+                    if (palyaAllapota[i, j+1] == kitEllenorzok && palyaAllapota[i, j+2] == kitEllenorzok&& palyaAllapota[i, j+3] == kitEllenorzok&& palyaAllapota[i, j+4] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+                if (irany == "+i+j")
+	            {
+                    if (palyaAllapota[i+1, j+1] == kitEllenorzok && palyaAllapota[i+2, j+2] == kitEllenorzok && palyaAllapota[i+3, j+3] == kitEllenorzok && palyaAllapota[i+4, j+4] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+                if (irany == "-i+j")
+	            {
+                    if (palyaAllapota[i-1, j+1] == kitEllenorzok && palyaAllapota[i-2, j+2] == kitEllenorzok && palyaAllapota[i-3, j+3] == kitEllenorzok && palyaAllapota[i-4, j+4] == kitEllenorzok)
+                    {
+                        return true;
+                    }
+	            }
+	        }
+            return false;
+        }
+
+        public void jatekVege(int kiNyert)
+        {
+            if (kiNyert == 1)
+            {
+                MessageBox.Show("Gratulálok ön nyert");
+            }
+            else
+            {
+                MessageBox.Show("sajnálom ön vesztett");
+            }
+            kezdesGob.Visible = false;
+            kezdesGob.Location = new Point(223, 44);
+            kezdesGob.Text = "Kezdés";
+            palya.Controls.Clear();
+            palya.Controls.Add(kezdesGob);
+            kezdesGob.Visible = true;
         }
     }
 }
