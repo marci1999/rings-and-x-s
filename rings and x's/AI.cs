@@ -7,6 +7,8 @@ namespace rings_and_x_s
 {
     class AI
     {
+        // -4 zőld kör
+        // -5 piros x
         Mezo m;
         List<int> mezokErteke;
         List<string> mezokNev;
@@ -124,10 +126,14 @@ namespace rings_and_x_s
             
         }
 
-        private void mezoVizsgalata(int KiIndoliI, int kiInduloJ, int i,int j)
+        private void mezoVizsgalata(int KiIndoloI, int kiInduloJ, int i,int j)
         {
+            bool iMinus = KiIndoloI < 0;
+            bool JMinus = kiInduloJ < 0;
+            bool iPlus = KiIndoloI > 0;
+            bool jPlus = kiInduloJ > 0; ;
             kiErtekeles[i, j] = -4;
-            if (palyaMerete != 3)
+            if (palyaMerete > 4)
             {
                 if (nyertValaki(-4))
                 {
@@ -142,8 +148,19 @@ namespace rings_and_x_s
                         }
                     }
                 }
+                else
+                {
+                    if ((i == 0 || i == (palyaMerete - 1)) || (j == 0 || j == (palyaMerete - 1)))
+                    {
+                        
+                    }
+                    else
+                    {
+                        kiErtekeles[i, j] = -5;
+                    }
+                }
             }
-            else if (palyaMerete == 3)
+            else if (palyaMerete <= 4)
             {
                 if (nyertValaki(-4))
                 {
@@ -151,10 +168,6 @@ namespace rings_and_x_s
                     kiErtekeles[i, j] = 10;
                     return;
                 }
-            }
-            else
-            {
-
             }
             kiErtekeles[i, j] = -5;
             if (nyertValaki(-5))
@@ -306,7 +319,7 @@ namespace rings_and_x_s
         {
             int nyereshezSzuksegesJelekSzama = 0;
 
-            if (palyaMerete < 6)
+            if (palyaMerete < 4)
             {
                 nyereshezSzuksegesJelekSzama = 3;
             }
@@ -323,6 +336,66 @@ namespace rings_and_x_s
             {
                 for (int j = 0; j < palyaMerete; j++)
                 {
+                    if (kitEllenorzok == -1 && i + nyereshezSzuksegesJelekSzama <= palyaMerete)
+                    {
+                        if (kiErtekeles[i + nyereshezSzuksegesJelekSzama, j] == (palyaMerete - 1))
+                        {
+                            return true;
+                        }
+                    }
+                    if (kitEllenorzok == -1 && i - (nyereshezSzuksegesJelekSzama - 1) >= 0)
+                    {
+                        if (kiErtekeles[i - nyereshezSzuksegesJelekSzama, j] == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    if (kitEllenorzok == -1 && j + nyereshezSzuksegesJelekSzama <= palyaMerete)
+                    {
+                        if (kiErtekeles[i, j - nyereshezSzuksegesJelekSzama] == 0 || kiErtekeles[i + nyereshezSzuksegesJelekSzama, j] == (palyaMerete - 1))
+                        {
+                            return true;
+                        }
+                    }
+                    if (kitEllenorzok == -1 && j - (nyereshezSzuksegesJelekSzama - 1) >= 0)
+                    {
+                        if (kiErtekeles[i, j - nyereshezSzuksegesJelekSzama] == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    if (kitEllenorzok == -1 && j + (nyereshezSzuksegesJelekSzama) <= palyaMerete && i + (nyereshezSzuksegesJelekSzama) <= palyaMerete)
+                    {
+                        if (kiErtekeles[i + nyereshezSzuksegesJelekSzama, j + nyereshezSzuksegesJelekSzama] == (palyaMerete - 1))
+                        {
+                            return true;
+                        }
+                    }
+                    if (kitEllenorzok == -1 && i - (nyereshezSzuksegesJelekSzama - 1) >= 0 && i - (nyereshezSzuksegesJelekSzama - 1) >= 0)
+                    {
+                        if (kiErtekeles[i - nyereshezSzuksegesJelekSzama, j - nyereshezSzuksegesJelekSzama] == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    if (kitEllenorzok == -1 && i - (nyereshezSzuksegesJelekSzama - 1) >= 0 && j + (nyereshezSzuksegesJelekSzama) <= palyaMerete)
+                    {
+                        if (kiErtekeles[i - nyereshezSzuksegesJelekSzama, j + nyereshezSzuksegesJelekSzama] == 0 || kiErtekeles[i - nyereshezSzuksegesJelekSzama, j + nyereshezSzuksegesJelekSzama] == (palyaMerete - 1))
+                        {
+                            return true;
+                        }
+                    }
+                    if (kitEllenorzok == -1 && i + (nyereshezSzuksegesJelekSzama) <= palyaMerete && j - (nyereshezSzuksegesJelekSzama - 1) >= 0)
+                    {
+                        if (kiErtekeles[i + nyereshezSzuksegesJelekSzama, j - nyereshezSzuksegesJelekSzama] == 0 || kiErtekeles[i + nyereshezSzuksegesJelekSzama, j - nyereshezSzuksegesJelekSzama] == (palyaMerete - 1))
+                        {
+                            return true;
+                        }
+                    }
+                    if (kitEllenorzok == -1)
+                    {
+                        return false;
+                    }
                     if (kiErtekeles[i, j] == kitEllenorzok)
                     {
                         if (i + nyereshezSzuksegesJelekSzama <= palyaMerete && miKellANyereshez(nyereshezSzuksegesJelekSzama, "+i", i, j, kitEllenorzok))
@@ -352,10 +425,6 @@ namespace rings_and_x_s
         {
             if (nyereshezSzuksegesJelekSzama == 3)
             {
-                if (kitEllenorzok == -1)
-                {
-                    
-                }
                 if (irany == "+i")
                 {
                     if (kiErtekeles[i + 1, j] == kitEllenorzok && kiErtekeles[i + 2, j] == kitEllenorzok)
@@ -418,6 +487,10 @@ namespace rings_and_x_s
             }
             else if (nyereshezSzuksegesJelekSzama == 5)
             {
+                if (kitEllenorzok == -1)
+                {
+
+                }
                 if (irany == "+i")
                 {
                     if (kiErtekeles[i + 1, j] == kitEllenorzok && kiErtekeles[i + 2, j] == kitEllenorzok && kiErtekeles[i + 3, j] == kitEllenorzok && kiErtekeles[i + 4, j] == kitEllenorzok)
