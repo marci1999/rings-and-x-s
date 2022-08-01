@@ -116,6 +116,7 @@ namespace rings_and_x_s
 
                             hely = j + iSeged;
                             mezokErteke[hely] = -5;
+                            //red x
                             ujraRajzol(mezokNev[hely], 2);
                             return;
                         }
@@ -131,13 +132,15 @@ namespace rings_and_x_s
             bool iMinus = KiIndoloI < 0;
             bool JMinus = kiInduloJ < 0;
             bool iPlus = KiIndoloI > 0;
-            bool jPlus = kiInduloJ > 0; ;
+            bool jPlus = kiInduloJ > 0;
             kiErtekeles[i, j] = -4;
+            int hanyJel = 0;
             if (palyaMerete > 4)
             {
                 if (nyertValaki(-4))
                 {
                     kiErtekeles[i, j] = -5;
+                    //red x
                     if (!((i == 0 || i == (palyaMerete-1)) || (j == 0 || j == (palyaMerete - 1))))
                     {
                         if (nyertValaki(-1))
@@ -150,13 +153,37 @@ namespace rings_and_x_s
                 }
                 else
                 {
+                    try 
+	                {	      
+                        if (kiInduloJ == 0)
+	                    {
+
+	                    }
+                        else if (KiIndoloI == 0)
+	                    {
+
+	                    }
+                        else
+                        {
+                            kiErtekeles[i+KiIndoloI,j+kiInduloJ] = -5;
+                            //red x
+                        }
+		                
+	                }   
+	                catch (Exception)
+	                {
+                        MessageBox.Show ("ok müködik");
+	                }
                     if ((i == 0 || i == (palyaMerete - 1)) || (j == 0 || j == (palyaMerete - 1)))
                     {
-                        
-                    }
-                    else
-                    {
-                        kiErtekeles[i, j] = -5;
+                        if (palyaMerete < 8)
+	                    {
+                           // kiInduloJ * -1
+	                    }
+                        else
+                        {
+
+                        }
                     }
                 }
             }
@@ -170,7 +197,9 @@ namespace rings_and_x_s
                 }
             }
             kiErtekeles[i, j] = -5;
+            //red x
             if (nyertValaki(-5))
+            //red x
             {
                 hely = -1;
                 kiErtekeles[i, j] = 10;
@@ -216,49 +245,49 @@ namespace rings_and_x_s
             {
                 if (kiErtekeles[i + 1, j + 1] != 0)
                 {
-                    mezoVizsgalata(i + 1, j + 1, i, j);
+                    mezoVizsgalata(+ 1, + 1, i, j);
                 }
             }
             if (iMinus != 0 && jMinus != 0)
             {
                 if (kiErtekeles[i - 1, j - 1] != 0)
                 {
-                    mezoVizsgalata(i - 1, j - 1, i, j);
+                    mezoVizsgalata(- 1, - 1, i, j);
                 }
             }
             if (iMinus != 0 && jplus != 0)
             {
                 if (kiErtekeles[i - 1, j + 1] != 0)
                 {
-                    mezoVizsgalata(i - 1, j + 1,i,j);
+                    mezoVizsgalata(- 1, + 1,i,j);
                 }
             }
             if (iPlus != 0 && jMinus != 0)
             {
                 if (kiErtekeles[i + 1, j - 1] != 0)
                 {
-                    mezoVizsgalata(i + 1, j - 1, i, j);
+                    mezoVizsgalata(+ 1, - 1, i, j);
                 }
             }
             if (iPlus != 0)
             {
                 if (kiErtekeles[i + 1,j] !=0)
                 {
-                    mezoVizsgalata(i + 1, j, i, j);
+                    mezoVizsgalata(+ 1, 0, i, j);
                 }
             }
             if (iMinus != 0)
             {
                 if (kiErtekeles[i - 1, j] != 0)
                 {
-                    mezoVizsgalata(i - 1, j, i, j);
+                    mezoVizsgalata(- 1, 0, i, j);
                 }
             }
             if (jplus != 0)
             {
                 if (kiErtekeles[i, j + 1] != 0)
                 {
-                    mezoVizsgalata(i, j + 1, i, j);
+                    mezoVizsgalata(0, + 1, i, j);
                 }
             }
             if (jMinus != 0)
@@ -266,7 +295,7 @@ namespace rings_and_x_s
                 if (kiErtekeles[i, j - 1] != 0)
                 {
 
-                    mezoVizsgalata(i, j - 1, i, j);
+                    mezoVizsgalata(0, - 1, i, j);
                 }
             }
         }
