@@ -75,8 +75,12 @@ namespace rings_and_x_s
                 if (helyNeve != null)
                 {
                     ai.ujraRajzol(helyNeve, 1);
+                    ai.aIValaszol();
                 }
-                ai.aIValaszol();
+                else
+                {
+                    MessageBox.Show("ezen a mezőn már van valami");
+                }
                 /*var greenCircle = new Bitmap(rings_and_x_s.Properties.Resources.green_circle);
                 PBPalyaElemek.Image = greenCircle;*/
                 //PBPalyaElemek.ImageLocation = (0,0);

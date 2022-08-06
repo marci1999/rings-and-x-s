@@ -39,7 +39,8 @@ namespace rings_and_x_s
             int height = Convert.ToInt32(PPalya.Height/meret);
             //MessageBox.Show(PPalya.Width + " " + PPalya.Height);
             string name;
-            ai = new AI(meret, m, mezok, palya,kezdesGob); ;
+            ai = new AI(meret, m, mezok, palya,kezdesGob);
+            List <Mezo> mezokSeged = new List<Mezo>();
             for (int i = 0; i <meret; i++)
             {
                 yKezdes = 1;
@@ -48,34 +49,29 @@ namespace rings_and_x_s
                     ai.MezokErteke.Add(0);
                     name = "" + i + "," + j + "";
                     ai.MezokNev.Add(""+name);
-                    /*if (j == 0 && i == 0 || j == 2 && i == 2)
-                    {
-                        m = new Mezo(xKezdes, yKezdes, width, height, 0);
-                        PPalya.Controls.Add(m.Keszit(1));
-                        mezok.Add(m.Keszit(1));
-                        yKezdes += height;
-                    }
-                    else if (j == 0 && i == 2 || j == 2 && i == 0)
-                    {
-                        m = new Mezo(xKezdes, yKezdes, width, height, 0);
-                        PPalya.Controls.Add(m.Keszit(2));
-                        mezok.Add(m.Keszit(2));
-                        yKezdes += height;
-                    }
-                    else
-                    {
-                        m = new Mezo(xKezdes, yKezdes, width, height, 0);
-                        PPalya.Controls.Add(m.Keszit(0));
-                        mezok.Add(m.Keszit(0));
-                        yKezdes += height;
-                    }*/
                     m = new Mezo(xKezdes, yKezdes, width, height, ai);
+                    mezokSeged.Add(m);
                     PPalya.Controls.Add(m.Keszit(0,name));
                     mezok.Add(m.Keszit(0,name));
                     yKezdes += height;
                 }
                 xKezdes += width;
             }
+            int nyereshezSzuksegesJelekSzama = 0;
+
+            if (meret < 4)
+            {
+                nyereshezSzuksegesJelekSzama = 3;
+            }
+            else if (meret < 8)
+            {
+                nyereshezSzuksegesJelekSzama = 4;
+            }
+            else
+            {
+                nyereshezSzuksegesJelekSzama = 5;
+            }
+            MessageBox.Show("a nyeréshaz "+nyereshezSzuksegesJelekSzama+" kör kell");
             /*ai = new AI(mezok, meret);
             int hely = ai.lepes();*/
         }
