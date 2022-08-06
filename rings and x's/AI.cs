@@ -276,25 +276,19 @@ namespace rings_and_x_s
             {
                 if (nyertValaki(nyeresEllenorzo))
                 {
-                    if (nyeresEllenorzo == 4)
-                    {
-                        kiErtekeles[i, j] = -5;
-                        //red x
-                    }
-                    else
-                    {
-                        kiErtekeles[i, j] = -4;
-                        //green circle
-                    }
+                    hely = -1;
+                    kiErtekeles[i, j] = 10;
+                    return;
                     
-                    if (!((i == 0 || i == (palyaMerete - 1)) || (j == 0 || j == (palyaMerete - 1))))
+
+                }
+                else if (nyertValaki(nyeresEllenorzo) && (!((i == 0 || i == (palyaMerete - 1)) || (j == 0 || j == (palyaMerete - 1)))))
+                {
+                    if (nyertValaki(-1))
                     {
-                        if (nyertValaki(-1))
-                        {
-                            hely = -1;
-                            kiErtekeles[i, j] = 10;
-                            return;
-                        }
+                        hely = -1;
+                        kiErtekeles[i, j] = 10;
+                        return;
                     }
                 }
                 else
@@ -372,10 +366,6 @@ namespace rings_and_x_s
                         }
                     
                  */
-                /*
-                vagy le kell ellneorizni hogy a  nyeres iranzaban meg egy jelet lehelyezve nyer e a jatekos.
-                i: le kell helyezni az elso ideiglenes jel helyere egy x-et.
-                n: megjeloles hogy szomszedos egy korre, x - el es eltavolitjuk az ideiglenes jeleket.*/
         }
         private void szomszedokEllenorzese(string szomszedok,int i, int j, int nyeresEllenorzo)
         {
@@ -733,154 +723,3 @@ namespace rings_and_x_s
         }
     }
 }
-/*kitEllenorzok
- 
-megnezni merre vznak tole a tobbbi mezok.
--------------------------------------------
-megnezni hogy a korulotte levo mezokon van e kor vgy x.
--------------------------------------------
-n: nem kell ezel a mezovel foglalkozni.
--------------------------------------------
-i: ellenorizni hogy ha ide rakna valki ez x-et, vagy egy kort, akkor azzal lehet e nyerni h igen a gep rokjon ide egy x-et:
-
-1. lehelyezni egy idegilenes jelet, es csinalni egy hogyomanyos nyeres ellenorzest.
-i: ha a palya merete 3 es az ideiglenes jel iranyaban felett erint az ideiglenes jel helyer kerul egy x.
-vagy ha a palya merete 3 akorr az ideiglenes jel helyer kerul egy x.
-vagy le kell ellneorizni hogy a  nyeres iranzaban meg egy jelet lehelyezve nyer e a jatekos.
-i: le kell helyezni az elso ideiglenes jel helyere egy x-et.
-n: megjeloles hogy szomszedos egy korre, x-el es eltavolitjuk az ideiglenes jeleket.
-
-a jelolesek kozul valaszt egyett a gep.
-
- */
-
-
-
-/*
-
-public int lepes()
-{
-    int hely = -1;
-    var palya = new PictureBox[palyMerete, palyMerete];
-    int listaElemSzamlalo = 0;
-    int[,] kiertekeles = new int[palyMerete, palyMerete];
-    for (int i = 0; i < palyMerete; i++)
-    {
-        for (int j = 0; j < palyMerete; j++)
-        {
-            palya[i, j] = mezok[listaElemSzamlalo];
-
-            listaElemSzamlalo++;
-            kiertekeles[i, j] = -5;
-        }
-    }
-    for (int i = 0; i < palyMerete; i++)
-    {
-        for (int j = 0; j < palyMerete; j++)
-        {
-            if (palya[i, j].Image == null)
-            {
-                bool jobbSzomszed = false;
-                bool alsoSzomszed = false;
-                bool balSzomszed = false;
-                bool felsoSzomszed = false;
-                if (j > 0)
-                {
-                    balSzomszed = palya[i, j - 1].Image == null;
-                }
-
-                if (i > 0)
-                {
-                    alsoSzomszed = palya[i - 1, j].Image == null;
-                }
-                if (j < palyMerete-1)
-                {
-                    jobbSzomszed = palya[i, j + 1].Image == null;
-                }
-                if (i < palyMerete-1)
-                {
-                    felsoSzomszed = palya[i + 1, j].Image == null;
-                }
-
-                if (i-1 < 0 || j - 1 < 0 || i  > palyMerete-2 || j > palyMerete-2)
-                {
-                    bool iKissebb = i - 1 < 0;
-                    bool jKissebb = j - 1 < 0;
-                    bool iNagyobb = i + 2 > palyMerete;
-                    bool jNagyobb = j + 2 > palyMerete;
-                /*MessageBox.Show(" " + i + " " + j + "" + "\n" +
-                        "i - 1 < 0" + ": " + iKissebb + "\n" +
-                        "j - 1 < 0" + ": " + jKissebb + "\n" +
-                        "i + 1 > palyMeret" + ": " + iNagyobb + "\n" +
-                        "j + 1 > palyMerete" + ": " + jNagyobb); */
-/*if (iKissebb && jKissebb)
-{
-    if (felsoSzomszed && jobbSzomszed)
-    {
-        kiertekeles[i, j] = 0;
-    }
-} 
-else if (iKissebb && jNagyobb)
-{
-    if (felsoSzomszed && balSzomszed)
-    {
-        kiertekeles[i, j] = 0;
-    }
-}
-else if (iNagyobb && jKissebb)
-{
-    if (alsoSzomszed && jobbSzomszed)
-    {
-        kiertekeles[i, j] = 0;
-    }
-}
-else if (iNagyobb && jNagyobb)
-{
-    if (alsoSzomszed && balSzomszed)
-    {
-        kiertekeles[i, j] = 0;
-    }
-}
-else if (iNagyobb)
-{
-    if (jobbSzomszed && alsoSzomszed && balSzomszed)
-    {
-        kiertekeles[i, j] = 0;
-    }
-}
-else if (iKissebb)
-{
-    if (jobbSzomszed && felsoSzomszed && balSzomszed)
-    {
-        kiertekeles[i, j] = 0;
-    }
-}
-else if (jKissebb)
-{
-    if (alsoSzomszed && jobbSzomszed && felsoSzomszed)
-    {
-        kiertekeles[i, j] = 0;
-    }
-}
-else if (jNagyobb)
-{
-    if (alsoSzomszed && balSzomszed && felsoSzomszed)
-    {
-        kiertekeles[i, j] = 0;
-    }
-}
-else
-{
-    if (alsoSzomszed && felsoSzomszed && balSzomszed && jobbSzomszed)
-    {
-        kiertekeles[i, j] = 0;
-    }
-}
-}
-else
-{
-
-}
-}
-}
-}*/
