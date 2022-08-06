@@ -66,7 +66,7 @@ namespace rings_and_x_s
 
         public void ujraRajzol(string nev, int kep)
         {
-            palya.Controls.Clear();
+            //palya.Controls.Clear();
             foreach (var item in mezok)
             {
                 if (item.Name == nev)

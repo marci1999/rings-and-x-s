@@ -33,6 +33,11 @@ namespace rings_and_x_s
             PPalya.Controls.Clear();
             BKezdes.Visible = true;
             int meret = CBPalyaMerete.SelectedIndex + 3;
+            if (CBPalyaMerete.SelectedIndex == -1)
+            {
+                MessageBox.Show("Nem lehet kézzel be irni karaktert");
+                meret = 3;
+            }
             int xKezdes = 1;
             int yKezdes;
             int width = Convert.ToInt32(PPalya.Width/meret);
@@ -50,9 +55,9 @@ namespace rings_and_x_s
                     name = "" + i + "," + j + "";
                     ai.MezokNev.Add(""+name);
                     m = new Mezo(xKezdes, yKezdes, width, height, ai);
-                    mezokSeged.Add(m);
-                    PPalya.Controls.Add(m.Keszit(0,name));
-                    mezok.Add(m.Keszit(0,name));
+                    var mezo = m.Keszit(name);
+                    PPalya.Controls.Add(mezo);
+                    mezok.Add(mezo);
                     yKezdes += height;
                 }
                 xKezdes += width;
@@ -72,31 +77,8 @@ namespace rings_and_x_s
                 nyereshezSzuksegesJelekSzama = 5;
             }
             MessageBox.Show("a nyeréshaz "+nyereshezSzuksegesJelekSzama+" kör kell");
-            /*ai = new AI(mezok, meret);
-            int hely = ai.lepes();*/
         }
 
-
-        /*void PBPalyaElemek_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-                 MessageBox.Show("Left button clicked
-            
-        }*/
-
-        /*private void MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                MessageBox.Show("ee");
-                foreach (var item in mezok)
-                {
-                    MessageBox.Show("" + item.Image + "" + item.Location);
-                }
-            }
-        }*/
-
-        
 
         private void Fkepernyo_Load(object sender, EventArgs e)
         {
