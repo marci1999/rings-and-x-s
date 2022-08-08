@@ -17,7 +17,6 @@ namespace rings_and_x_s
         int palyaMerete;
         Panel palya;
         Button kezdesGob;
-        private int hely = -1;
         int xAKozelben = 0;
         int korAKozelben = 0;
 
@@ -48,10 +47,8 @@ namespace rings_and_x_s
 
             if (kep == null)
             {
-                int xSeged = x * palyaMerete;
 
-                int hely = y + xSeged;
-                //MessageBox.Show("" + mezokNev[hely]);
+                int hely = y + (x * palyaMerete);
 
                 if (mezokErteke[hely] == 0)
                 {
@@ -95,11 +92,8 @@ namespace rings_and_x_s
             {
                 for (int j = 0; j < palyaMerete; j++)
                 {
-                    int iSeged = i * palyaMerete;
 
-                    hely = j + iSeged;
-
-                    kiErtekeles[i, j] = mezokErteke[hely];
+                    kiErtekeles[i, j] = mezokErteke[j + (i * palyaMerete)];
                 }
             }
             int kitEllenorzok = -4;
@@ -109,18 +103,17 @@ namespace rings_and_x_s
                 return;
             }
             kitEllenorzok = -5;
+            int hely =0;
             for (int i = 0; i < palyaMerete; i++)
             {
                 for (int j = 0; j < palyaMerete; j++)
                 {
                     if (kiErtekeles[i,j] == 0)
                     {
-                        szomszedokEllenorzese(szomsedosMezok(i, j), i, j, -4);
-                        if (hely == -1)
+                        if (szomszedokEllenorzese(szomsedosMezok(i, j), i, j, -4))
                         {
-                            int iSeged = i * palyaMerete;
 
-                            hely = j + iSeged;
+                            hely = j + (i * palyaMerete);
                             if (mezokErteke[hely] == 0)
                             {
                                 mezokErteke[hely] = -5;
@@ -141,12 +134,10 @@ namespace rings_and_x_s
                                 return;
                             }
                         }
-                        szomszedokEllenorzese(szomsedosMezok(i, j), i, j, -5);
-                        if (hely == -1)
+                        if (szomszedokEllenorzese(szomsedosMezok(i, j), i, j, -5))
                         {
-                            int iSeged = i * palyaMerete;
 
-                            hely = j + iSeged;
+                            hely = j + (i * palyaMerete);
                             if (mezokErteke[hely] == 0)
                             {
                                 mezokErteke[hely] = -5;
@@ -195,8 +186,7 @@ namespace rings_and_x_s
             int x = Convert.ToInt32(seged[0]);
             int y = Convert.ToInt32(seged[1]);
             kiErtekeles[x, y] = -5;
-            int xSeged = x * palyaMerete;
-            hely = y + xSeged;
+            hely = y + (x * palyaMerete);
             mezokErteke[hely] = -5;
             ujraRajzol(mezokNev[hely], 2);
             if (nyertValaki(kitEllenorzok))
@@ -228,6 +218,7 @@ namespace rings_and_x_s
             int x = -1;
             int y = -1;
             int kiválasztottÉrték = -1;
+            int hely = -1;
             do
             {
                 int hasonélitasiAlap = -1;
@@ -257,14 +248,13 @@ namespace rings_and_x_s
                         }
                     }
                 }
-                int xSeged = x * palyaMerete;
 
-                hely = y + xSeged;
+                hely = y + (x * palyaMerete);
                 kiválasztottÉrték = mezokErteke[hely];
             } while (mezokErteke[hely] != 0);
             return ("" + x + "," + y + "");
         }
-        private void mezoVizsgalata(int iVector, int jVector, int i,int j, int nyeresEllenorzo)
+        private bool mezoVizsgalata(int iVector, int jVector, int i,int j, int nyeresEllenorzo)
         {
             bool iMinus = iVector < 0;
             bool JMinus = jVector < 0;
@@ -275,10 +265,9 @@ namespace rings_and_x_s
             if (palyaMerete > 4)
             {
                 if (nyertValaki(nyeresEllenorzo))
-                {
-                    hely = -1;
+                {                    
                     kiErtekeles[i, j] = 10;
-                    return;
+                    return true;
                     
 
                 }
@@ -286,9 +275,8 @@ namespace rings_and_x_s
                 {
                     if (nyertValaki(-1))
                     {
-                        hely = -1;
                         kiErtekeles[i, j] = 10;
-                        return;
+                        return true;
                     }
                 }
                 else
@@ -299,38 +287,34 @@ namespace rings_and_x_s
                     {
                         if (palyaMerete < 8 && (kiErtekeles[i + (iVector * 2), j + (jVector * 2)] == nyeresEllenorzo))
                         {
-                            hely = -1;
                             kiErtekeles[i, j] = 10;
-                            return;
+                            return true;
                         }
                         else if (palyaMerete >= 8 && (kiErtekeles[i + (iVector * 2), j + (jVector * 2)] == nyeresEllenorzo) && (kiErtekeles[i + (iVector * 3), j + (jVector * 3)] == nyeresEllenorzo))
                         {
-                            hely = -1;
                             kiErtekeles[i, j] = 10;
-                            return;
+                            return true;
                         }
                         else if (palyaMerete < 8 && (kiErtekeles[i + (iVector * -1), j + (jVector * -1)] == nyeresEllenorzo))
                         {
-                            hely = -1;
                             kiErtekeles[i, j] = 10;
-                            return;
+                            return true;
                         }
                         else if (palyaMerete >= 8 && (kiErtekeles[i + (iVector * -1), j + (jVector * -1)] == nyeresEllenorzo) && (kiErtekeles[i + (iVector * 2), j + (jVector * 2)] == -nyeresEllenorzo))
                         {
-                            hely = -1;
                             kiErtekeles[i, j] = 10;
-                            return;
+                            return true;
                         }
                     }
                 }
+                
             }
             else if (palyaMerete <= 4)
             {
                 if (nyertValaki(nyeresEllenorzo))
                 {
-                    hely = -1;
                     kiErtekeles[i, j] = 10;
-                    return;
+                    return true;
                 }
             }
             if (nyeresEllenorzo == -4)
@@ -342,32 +326,9 @@ namespace rings_and_x_s
                 xAKozelben++;
             }
             kiErtekeles[i, j] = 0;
-                /*
-                 try 
-                        {	      
-                            
-                            
-
-                        }   
-                        catch (Exception)
-                        {
-                            MessageBox.Show ("ok müködik");
-                        }
-                        if ((i == 0 || i == (palyaMerete - 1)) || (j == 0 || j == (palyaMerete - 1)))
-                        {
-                            if (palyaMerete < 8)
-                            {
-                               // kiInduloJ * -1
-                            }
-                            else
-                            {
-
-                            }
-                        }
-                    
-                 */
+            return false;
         }
-        private void szomszedokEllenorzese(string szomszedok,int i, int j, int nyeresEllenorzo)
+        private bool szomszedokEllenorzese(string szomszedok,int i, int j, int nyeresEllenorzo)
         {
             string[] seged = szomszedok.Split('@');
             string[] iplusJplus = seged[0].Split(';');
@@ -399,59 +360,84 @@ namespace rings_and_x_s
             {
                 if (kiErtekeles[i + 1, j + 1] == nyeresEllenorzo)
                 {
-                    mezoVizsgalata(+ 1, + 1, i, j, nyeresEllenorzo);
+                    if (mezoVizsgalata(+1, +1, i, j, nyeresEllenorzo))
+                    {
+                        return true;
+                    }
                 }
             }
             if (iMinus != 0 && jMinus != 0)
             {
                 if (kiErtekeles[i - 1, j - 1] == nyeresEllenorzo)
                 {
-                    mezoVizsgalata(- 1, - 1, i, j, nyeresEllenorzo);
+                    if (mezoVizsgalata(-1, -1, i, j, nyeresEllenorzo))
+                    {
+
+                    }
                 }
             }
             if (iMinus != 0 && jplus != 0)
             {
                 if (kiErtekeles[i - 1, j + 1] == nyeresEllenorzo)
                 {
-                    mezoVizsgalata(- 1, + 1,i,j, nyeresEllenorzo);
+                    if (mezoVizsgalata(-1, +1, i, j, nyeresEllenorzo))
+                    {
+                        return true;
+                    }
+                    
                 }
             }
             if (iPlus != 0 && jMinus != 0)
             {
                 if (kiErtekeles[i + 1, j - 1] == nyeresEllenorzo)
                 {
-                    mezoVizsgalata(+ 1, - 1, i, j, nyeresEllenorzo);
+                    if (mezoVizsgalata(+1, -1, i, j, nyeresEllenorzo))
+                    {
+                        return true;
+                    }
                 }
             }
             if (iPlus != 0)
             {
                 if (kiErtekeles[i + 1,j] == nyeresEllenorzo)
                 {
-                    mezoVizsgalata(+ 1, 0, i, j, nyeresEllenorzo);
+                    if (mezoVizsgalata(+1, 0, i, j, nyeresEllenorzo))
+                    {
+                        return true;
+                    }
                 }
             }
             if (iMinus != 0)
             {
                  if (kiErtekeles[i - 1, j] == nyeresEllenorzo)
                 {
-                    mezoVizsgalata(- 1, 0, i, j, nyeresEllenorzo);
+                    if (mezoVizsgalata(-1, 0, i, j, nyeresEllenorzo))
+                    {
+                        return true;
+                    }
                 }
             }
             if (jplus != 0)
             {
                 if (kiErtekeles[i, j + 1] == nyeresEllenorzo)
                 {
-                    mezoVizsgalata(0, + 1, i, j, nyeresEllenorzo);
+                    if (mezoVizsgalata(0, +1, i, j, nyeresEllenorzo))
+                    {
+                        return true;
+                    }
                 }
             }
             if (jMinus != 0)
             {
                 if (kiErtekeles[i, j - 1] == nyeresEllenorzo)
                 {
-
-                    mezoVizsgalata(0, - 1, i, j, nyeresEllenorzo);
+                    if (mezoVizsgalata(0, -1, i, j, nyeresEllenorzo))
+                    {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
         private string szomsedosMezok(int i, int j)
         {
